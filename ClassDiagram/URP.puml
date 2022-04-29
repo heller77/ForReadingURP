@@ -23,10 +23,24 @@
 'HOURS
 'MINUTES
 '}
-RenderPipeline <|-- UniversalRenderPipeline
-class UniversalRenderPipeline {
-}
-abstract class RenderPipeline{
+namespace UnityEngine.Rendering{
+    RenderPipeline <|-- UniversalRenderPipeline
+
+    abstract class RenderPipeline{
+        {abstract} void Render()
+        void ProcessRenderRequests()
+        {static}void BeginFrameRendering()
+        {static}void BeginCameraRendering()
+        {static}void EndFrameRendering()
+        {static}void EndCameraRendering()
+        void InternalRender()
+        void InternalRenderWithRequests()
+        + bool disposed
+        void Dispose()
+        virtual void Dispose(bool disposing)     
+    }
+    class UniversalRenderPipeline {
+    }
 }
 
 @enduml
