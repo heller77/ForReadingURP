@@ -17,7 +17,88 @@ namespace UnityEngine.Rendering{
         void Dispose()
         virtual void Dispose(bool disposing)     
     }
+    
     class UniversalRenderPipeline {
+        {static} XRSystem m_XRSystem
+        + {static} float maxShadowBias()
+        + {static} float minRenderScale()
+        + {static} float maxRenderScale()
+        + {static} int maxPerObjectLights()
+        + int k_MaxVisibleAdditionalLightsMobileShaderLevelLessThan45
+        + int k_MaxVisibleAdditionalLightsMobile
+        + int k_MaxVisibleAdditionalLightsNonMobile
+        + {static} int maxVisibleAdditionalLights()
+        + UniversalRenderPipeline(UniversalRenderPipelineAsset asset)
+        # void Dispose(bool disposing)
+        # void Render(ScriptableRenderContext renderContext, Camera[] cameras)
+        + {static} void RenderSingleCamera(ScriptableRenderContext context, Camera camera)
+        bool TryGetCullingParameters(CameraData cameraData, out ScriptableCullingParameters cullingParams)        
+        {static} void RenderSingleCamera(ScriptableRenderContext context, CameraData cameraData, bool anyPostProcessingEnabled)
+        {static} void RenderCameraStack(ScriptableRenderContext context, Camera baseCamera)
+        {static} void UpdateVolumeFramework(Camera camera, UniversalAdditionalCameraData additionalCameraData)
+        {static} bool CheckPostProcessForDepth(in CameraData cameraData)
+        {static} void SetSupportedRenderingFeatures()
+        {static} void InitializeCameraData(Camera camera, UniversalAdditionalCameraData additionalCameraData, bool resolveFinalTarget, out CameraData cameraData)
+        {static} void InitializeAdditionalCameraData(Camera camera, UniversalAdditionalCameraData additionalCameraData, bool resolveFinalTarget, ref CameraData cameraData)
+        {static} void InitializeRenderingData(UniversalRenderPipelineAsset settings, ref CameraData cameraData, ref CullingResults cullResults,
+                             bool anyPostProcessingEnabled, out RenderingData renderingData)
+        {static} void InitializeShadowData(UniversalRenderPipelineAsset settings, NativeArray<VisibleLight> visibleLights, bool mainLightCastShadows, bool additionalLightsCastShadows, out ShadowData shadowData)
+        {static} void InitializePostProcessingData(UniversalRenderPipelineAsset settings, out PostProcessingData postProcessingData)
+        {static} void InitializeLightData(UniversalRenderPipelineAsset settings, NativeArray<VisibleLight> visibleLights, int mainLightIndex, out LightData lightData)
+        {static} PerObjectData GetPerObjectLightFlags(int additionalLightsCount)
+        {static} int GetMainLightIndex(UniversalRenderPipelineAsset settings, NativeArray<VisibleLight> visibleLights)
+        {static} void SetupPerFrameShaderConstants()
+        {static} void ApplyAdaptivePerformance(ref CameraData cameraData)
+        {static} void ApplyAdaptivePerformance(ref RenderingData renderingData)
+        
+        
+        
+        
+        
+        
+                           
+
+        
+    }
+    UniversalRenderPipeline +-- Profiling
+    class Profiling{
+        - {static} Dictionary<int, ProfilingSampler> s_HashSamplerCache
+        + {static} ProfilingSampler unknownSampler= new ProfilingSampler("Unknown")
+        + {static} ProfilingSampler TryGetOrAddCameraSampler()
+           
+    }
+    Profiling +-- Pipeline
+    class Pipeline{
+        + {static} ProfilingSampler beginFrameRendering
+        + {static} ProfilingSampler endFrameRendering
+        + {static} ProfilingSampler beginCameraRendering
+        + {static} ProfilingSampler endCameraRendering
+        string k_Name
+        + {static} ProfilingSampler initializeCameraData
+        + {static} ProfilingSampler initializeStackedCameraData
+        + {static} ProfilingSampler initializeAdditionalCameraData
+        + {static} ProfilingSampler initializeRenderingData
+        + {static} ProfilingSampler initializeLightData
+        + {static} ProfilingSampler getPerObjectLightFlags
+        + {static} ProfilingSampler getMainLightIndex
+        + {static} ProfilingSampler setupPerFrameShaderConstants
+        
+    }
+    Pipeline +-- Renderer
+    Pipeline +-- Context
+    Pipeline +-- XR
+    class Renderer{
+        string k_Name
+        {static}  ProfilingSampler setupCullingParameters
+        {static} ProfilingSampler setup
+    }
+    
+    class Context{
+        string k_Name
+        +{static} ProfilingSampler submit
+    }
+    class XR{
+        + {static} ProfilingSampler mirrorView 
     }
 }
 
